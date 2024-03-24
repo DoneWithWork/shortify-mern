@@ -1,7 +1,12 @@
 import express from "express";
-import { SignUp } from "../Controllers/auth.controller";
+import {
+  CreateLink,
+  RedirectToLink,
+  DeleteLink,
+  UpdateLink,
+} from "../Controllers/link.controller";
 const router = express.Router();
 
-router.get("/signup", SignUp);
+router.get("/createlink", SignUp);
 
 export default router;
