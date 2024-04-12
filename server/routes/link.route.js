@@ -1,30 +1,39 @@
 import express from "express";
 import { body } from "express-validator";
-import UserModel from "../models/UserModel";
 import {
-  LogoutUser,
-  loginUser,
-  registerUser,
-} from "../controllers/user.controller";
+  getLinks,
+  createLink,
+  redirectLink,
+  deleteLink,
+  updateLink,
+} from "../controllers/link.controller.js";
+import { auth } from "../middlewares/auth.js";
 const router = express.Router();
 
 router.post(
   "/newlink",
-  body("name").isEmail().notEmpty().withMessage("Name is required"),
-  body("orignalLink")
+  body("name").notEmpty().withMessage("Name is required"),
+  body("originalLink")
     .notEmpty()
-    .isURL()
-    .withMessage("Orignal Link is required"),
-
-  registerUser
+    .withMessage("Orignal link is required")
+    .isURL(),
+  auth,
+  createLink
 );
+router.get("/getlinks", auth, getLinks);
+
+router.get("/redirect/:id", redirectLink);
+
+router.post("/delete/:id", auth, deleteLink);
+
 router.post(
-  "/login",
-  body("password").notEmpty().withMessage("Password is required"),
-  body("username").notEmpty().withMessage("Username is required"),
-  loginUser
+  "/update/:id",
+  body("name").notEmpty().withMessage("Name is required"),
+  body("originalLink")
+    .notEmpty()
+    .withMessage("Orignal link is required")
+    .isURL(),
+  auth,
+  updateLink
 );
-
-router.post("/logout", LogoutUser);
-
 export default router;

@@ -1,11 +1,11 @@
 import express from "express";
 import { body } from "express-validator";
-import UserModel from "../models/UserModel";
+import UserModel from "../models/UserModel.js";
 import {
   LogoutUser,
   loginUser,
   registerUser,
-} from "../controllers/user.controller";
+} from "../controllers/user.controller.js";
 const router = express.Router();
 
 router.post(
@@ -15,9 +15,9 @@ router.post(
     .notEmpty()
     .withMessage("Email is not valid")
     .custom(async (value) => {
-      const user = await UserModel.findOne({ email });
+      const user = await UserModel.findOne({ value });
       if (user) {
-        throw new Error("E-mail already in use");
+        throw new Error("Email already exists");
       }
     }),
   body("password").notEmpty().withMessage("Password is required"),

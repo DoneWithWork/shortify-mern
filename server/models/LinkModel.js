@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import nanoid from "nanoid";
+import { nanoid } from "nanoid";
+
 const LinkModel = mongoose.Schema(
   {
     name: {

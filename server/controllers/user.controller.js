@@ -43,7 +43,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: "1d",
   });
-  let { password: key, ...userWithoutPassword } = user;
+  let { password: key, ...userWithoutPassword } = user._doc;
   res.cookie("authToken", token, { httpOnly: true });
   return res.status(200).json({
     message: "User logged in",
